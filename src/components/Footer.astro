@@ -1,0 +1,38 @@
+---
+import Logo from './Logo.astro';
+import { site, nav } from '../lib/site';
+const year = new Date().getFullYear();
+const social = (site.social ?? []) as { label: string; url: string }[];
+---
+<footer class="site-footer">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="/" aria-label="EZ Recruitment, home"><Logo light /></a>
+      <p>{site.footerBlurb}</p>
+      <p class="footer__tagline">{site.tagline}</p>
+    </div>
+
+    {nav.footer.map((col) => (
+      <nav class="footer__col" aria-label={col.title}>
+        <h2>{col.title}</h2>
+        <ul>{col.links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+      </nav>
+    ))}
+
+    <div class="footer__col">
+      <h2>Contact</h2>
+      <ul>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+        {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+        {site.address && <li>{site.address}</li>}
+        {social.map((s) => <li><a href={s.url} rel="noopener" target="_blank">{s.label}</a></li>)}
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bar">
+    <div class="container footer__bar-inner">
+      <p>&copy; {year} {site.copyrightName}. All rights reserved.</p>
+      <ul>{nav.legal.map((l) => <li><a href={l.href}>{l.label}</a></li>)}</ul>
+    </div>
+  </div>
+</footer>

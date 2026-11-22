@@ -1,0 +1,136 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { byOrder, pages, site } from '../lib/site';
+import c from '../data/contact.json';
+
+const p = pages.contact;
+const industries = (await getCollection('industries')).sort(byOrder);
+---
+<Layout title={p.title} description={p.description}>
+  <PageHero eyebrow={c.eyebrow} title={c.heading} intro={c.intro} crumb={[{ label: p.title }]} />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <aside class="contact-side" data-reveal>
+        <h2>Direct contact</h2>
+        <p>Prefer email? Write to us directly.</p>
+        <p><a class="contact-email" href={`mailto:${site.email}`}>{site.email}</a></p>
+        {site.phone && <p>Phone: <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></p>}
+        {site.address && <p>{site.address}</p>}
+
+        <h2 class="contact-side__next">{c.nextStepsHeading}</h2>
+        <ol class="steps">
+          {c.nextSteps.map((s) => <li>{s}</li>)}
+        </ol>
+      </aside>
+
+      <div class="form-panel" id="enquiry" data-reveal>
+        <h2>{c.formHeading}</h2>
+        <form action="/api/contact" method="post" class="form" novalidate data-contact-form>
+          <div class="form__row">
+            <div class="field">
+              <label for="name">Name <span aria-hidden="true">*</span></label>
+              <input id="name" name="name" type="text" autocomplete="name" required maxlength="120" />
+            </div>
+            <div class="field">
+              <label for="company">Company name <span aria-hidden="true">*</span></label>
+              <input id="company" name="company" type="text" autocomplete="organization" required maxlength="160" />
+            </div>
+          </div>
+          <div class="form__row">
+            <div class="field">
+              <label for="email">Business email <span aria-hidden="true">*</span></label>
+              <input id="email" name="email" type="email" autocomplete="email" required maxlength="160" />
+            </div>
+            <div class="field">
+              <label for="phone">Phone number</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" maxlength="40" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="industry">Industry <span aria-hidden="true">*</span></label>
+            <select id="industry" name="industry" required>
+              <option value="">Select your industry</option>
+              {industries.map((i) => <option value={i.data.title}>{i.data.title}</option>)}
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="requirements">Workforce requirements <span aria-hidden="true">*</span></label>
+            <textarea id="requirements" name="requirements" rows="4" required maxlength="3000" placeholder={c.workforcePlaceholder}></textarea>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="4" maxlength="4000" placeholder={c.messagePlaceholder}></textarea>
+          </div>
+
+          <!-- Spam trap: real visitors never see or fill this in. -->
+          <div class="hp" aria-hidden="true">
+            <label for="website">Leave this field empty</label>
+            <input id="website" name="website" type="text" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <p class="form__privacy">By submitting this form you agree that we may use your details to respond to your enquiry. See our <a href="/privacy-policy/">Privacy Policy</a>.</p>
+
+          <button class="btn btn--primary btn--lg" type="submit" data-submit>{c.submitLabel}<span class="btn__arrow" aria-hidden="true">→</span></button>
+
+          <div class="form__status" role="status" aria-live="polite" data-status tabindex="-1"></div>
+        </form>
+
+        <div class="form-success" data-success hidden>
+          <h3>{c.successHeading}</h3>
+          <p>{c.successText}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ errorText: c.errorText, email: site.email }}>
+  const form = document.querySelector('[data-contact-form]');
+  const status = document.querySelector('[data-status]');
+  const success = document.querySelector('[data-success]');
+  const submit = document.querySelector('[data-submit]');
+
+  const say = (msg, kind) => {
+    status.className = 'form__status' + (kind ? ' is-' + kind : '');
+    status.textContent = msg;
+  };
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    say('');
+    form.querySelectorAll('[aria-invalid]').forEach((el) => el.removeAttribute('aria-invalid'));
+
+    const bad = [...form.querySelectorAll('[required]')].filter((el) => !el.value.trim() || (el.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(el.value.trim())));
+    if (bad.length) {
+      bad.forEach((el) => el.setAttribute('aria-invalid', 'true'));
+      bad[0].focus();
+      say('Please complete the highlighted fields with valid details.', 'error');
+      return;
+    }
+
+    submit.disabled = true;
+    const label = submit.firstChild.textContent;
+    submit.firstChild.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.ok) {
+        form.hidden = true;
+        success.hidden = false;
+        success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      throw new Error(data.error || 'failed');
+    } catch (err) {
+      say(errorText + ' ' + email, 'error');
+      status.focus();
+    } finally {
+      submit.disabled = false;
+      submit.firstChild.textContent = label;
+    }
+  });
+</script>

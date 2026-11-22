@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Content Manager | EZ Recruitment</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+  </head>
+  <body>
+    <!-- Decap CMS (pinned version). The login address is taken from the page you are on,
+         so the CMS works on the preview address and on the real domain without changes. -->
+    <script>window.CMS_MANUAL_INIT = true;</script>
+    <script src="https://unpkg.com/decap-cms@3.18.0/dist/decap-cms.js"></script>
+    <script>
+      CMS.init({ config: { backend: { base_url: window.location.origin } } });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "eyebrow": "Contact Us",
+  "heading": "Discuss your workforce needs",
+  "intro": "Tell us about your business and the roles you need to fill. The more detail you can share, the more useful our first response will be.",
+  "formHeading": "Send us an enquiry",
+  "submitLabel": "Discuss Your Workforce Needs",
+  "successHeading": "Thank you for your enquiry",
+  "successText": "Your message has been sent. We will review your requirements and contact you at the business email you provided.",
+  "errorText": "Something went wrong while sending your enquiry. Please try again, or email us directly.",
+  "nextStepsHeading": "What happens next",
+  "nextSteps": [
+    "We review the details of your enquiry.",
+    "We contact you at your business email to discuss your requirements.",
+    "We suggest an approach and agree the next steps with you."
+  ],
+  "workforcePlaceholder": "For example: job titles, number of positions, required skills and experience, work location, preferred timeline.",
+  "messagePlaceholder": "Anything else you would like us to know about your business or your hiring plans."
+}

@@ -1,0 +1,17 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import c from '../../data/contact.json';
+---
+<Layout title="Thank you" noindex>
+  <section class="section notfound">
+    <div class="container container--narrow">
+      <p class="eyebrow">Enquiry received</p>
+      <h1>{c.successHeading}</h1>
+      <p>{c.successText}</p>
+      <div class="hero__actions">
+        <a class="btn btn--navy" href="/">Back to the homepage</a>
+        <a class="btn btn--outline" href="/insights/">Read our insights</a>
+      </div>
+    </div>
+  </section>
+</Layout>

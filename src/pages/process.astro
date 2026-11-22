@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import ProcessTimeline from '../components/ProcessTimeline.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { pages } from '../lib/site';
+
+const p = pages.process;
+---
+<Layout title={p.title} description={p.description} image={p.image}>
+  <PageHero eyebrow={p.eyebrow} title={p.title} intro={p.intro} image={p.image} imageAlt={p.imageAlt} crumb={[{ label: p.title }]} />
+
+  <section class="section">
+    <div class="container container--narrow">
+      <ProcessTimeline variant="detailed" />
+      <p class="timeline-note" data-reveal>
+        Every search is different. Timelines depend on the roles, the requirements and the administrative steps involved, and we will discuss realistic expectations with you at the planning stage.
+      </p>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

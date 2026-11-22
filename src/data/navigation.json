@@ -1,0 +1,42 @@
+{
+  "main": [
+    { "label": "About", "href": "/about/" },
+    { "label": "Services", "href": "/services/" },
+    { "label": "Industries", "href": "/industries/" },
+    { "label": "Process", "href": "/process/" },
+    { "label": "Insights", "href": "/insights/" }
+  ],
+  "cta": { "label": "Discuss Your Workforce Needs", "href": "/contact/" },
+  "footer": [
+    {
+      "title": "Company",
+      "links": [
+        { "label": "About Us", "href": "/about/" },
+        { "label": "Our Process", "href": "/process/" },
+        { "label": "Insights", "href": "/insights/" },
+        { "label": "Contact Us", "href": "/contact/" }
+      ]
+    },
+    {
+      "title": "Services",
+      "links": [
+        { "label": "International Recruitment Support", "href": "/services/#international-recruitment-support" },
+        { "label": "Workforce Sourcing", "href": "/services/#workforce-sourcing" },
+        { "label": "Candidate Screening", "href": "/services/#candidate-screening-and-evaluation" },
+        { "label": "Recruitment Coordination", "href": "/services/#recruitment-coordination" }
+      ]
+    },
+    {
+      "title": "Industries",
+      "links": [
+        { "label": "Manufacturing & Industrial", "href": "/industries/#manufacturing-and-industrial" },
+        { "label": "Construction", "href": "/industries/#construction" },
+        { "label": "Logistics & Warehousing", "href": "/industries/#logistics-and-warehousing" },
+        { "label": "Hospitality & Tourism", "href": "/industries/#hospitality-and-tourism" }
+      ]
+    }
+  ],
+  "legal": [
+    { "label": "Privacy Policy", "href": "/privacy-policy/" }
+  ]
+}

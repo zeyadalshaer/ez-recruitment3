@@ -1,0 +1,15 @@
+---
+interface Props { items: { question: string; answer: string }[] }
+const { items } = Astro.props;
+---
+<div class="faq">
+  {items.map((it, i) => (
+    <details class="faq__item" data-reveal open={i === 0 ? true : undefined}>
+      <summary>
+        <span>{it.question}</span>
+        <span class="faq__icon" aria-hidden="true"></span>
+      </summary>
+      <p>{it.answer}</p>
+    </details>
+  ))}
+</div>

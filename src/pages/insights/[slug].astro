@@ -1,0 +1,79 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Img from '../../components/Img.astro';
+import PostCard from '../../components/PostCard.astro';
+import ShareLinks from '../../components/ShareLinks.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { absUrl, categoryTitle, formatDate, getPosts, getRelated, readingTime, site } from '../../lib/site';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, updated, image, imageAlt, category, author } = post.data;
+const catName = await categoryTitle(category);
+const related = getRelated(post, await getPosts());
+const url = absUrl(`/insights/${post.id}/`);
+
+const articleLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: title,
+  description,
+  datePublished: date.toISOString(),
+  dateModified: (updated ?? date).toISOString(),
+  author: { '@type': 'Organization', name: author },
+  publisher: { '@type': 'Organization', name: site.name, url: site.url },
+  mainEntityOfPage: url,
+};
+---
+<Layout title={title} description={description} image={image} type="article" publishedTime={date} modifiedTime={updated ?? date} jsonLd={[articleLd]}>
+  <article>
+    <header class="article-head">
+      <div class="container container--narrow">
+        <nav class="crumbs crumbs--dark" aria-label="Breadcrumb">
+          <ol>
+            <li><a href="/">Home</a></li>
+            <li><a href="/insights/">Insights</a></li>
+            <li><a href={`/insights/category/${category}/`}>{catName}</a></li>
+          </ol>
+        </nav>
+        <p class="article-head__meta">
+          <a href={`/insights/category/${category}/`} class="tag">{catName}</a>
+          <span><time datetime={date.toISOString()}>{formatDate(date)}</time> · {readingTime(post.body)} min read</span>
+        </p>
+        <h1>{title}</h1>
+        <p class="article-head__lead">{description}</p>
+        <p class="article-head__by">By {author}</p>
+      </div>
+    </header>
+
+    {image && (
+      <div class="container article-hero">
+        <Img src={image} alt={imageAlt ?? ''} loading="eager" fetchpriority="high" sizes="(min-width: 1200px) 1100px, 100vw" />
+      </div>
+    )}
+
+    <div class="container container--narrow article-body">
+      <div class="prose"><Content /></div>
+      <ShareLinks url={url} title={title} />
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="section section--mist">
+      <div class="container">
+        <h2 class="related-title">Related articles</h2>
+        <div class="post-grid">
+          {related.map((p) => <PostCard post={p} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBand />
+</Layout>

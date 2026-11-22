@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHead from '../components/SectionHead.astro';
+import Img from '../components/Img.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { pages } from '../lib/site';
+import about from '../data/about.json';
+
+const p = pages.about;
+---
+<Layout title={p.title} description={p.description} image={p.image}>
+  <PageHero eyebrow={p.eyebrow} title={p.title} intro={p.intro} image={p.image} imageAlt={p.imageAlt} crumb={[{ label: p.title }]} />
+
+  <section class="section">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow">{about.overview.eyebrow}</p>
+        <h2 class="section-head__title">{about.overview.heading}</h2>
+        {about.overview.paragraphs.map((t) => <p>{t}</p>)}
+      </div>
+      <div class="split__media" data-reveal>
+        <Img src={about.overview.image} alt={about.overview.imageAlt} sizes="(min-width: 960px) 45vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container statement-grid">
+      <div class="statement" data-reveal>
+        <p class="eyebrow">Mission</p>
+        <h2>{about.mission.heading}</h2>
+        <p class="statement__text">{about.mission.text}</p>
+      </div>
+      <div class="statement statement--navy" data-reveal>
+        <p class="eyebrow eyebrow--light">Vision</p>
+        <h2>{about.vision.heading}</h2>
+        <p class="statement__text">{about.vision.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow={about.values.eyebrow} heading={about.values.heading} />
+      <ul class="values">
+        {about.values.items.map((v, i) => (
+          <li class="values__item" data-reveal style={`--i:${i % 3}`}>
+            <h3>{v.title}</h3>
+            <p>{v.text}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--navy approach">
+    <div class="container split">
+      <div class="split__copy" data-reveal>
+        <p class="eyebrow eyebrow--light">{about.approach.eyebrow}</p>
+        <h2 class="section-head__title">{about.approach.heading}</h2>
+        {about.approach.paragraphs.map((t) => <p>{t}</p>)}
+      </div>
+      <ul class="approach__points" data-reveal>
+        {about.approach.points.map((t) => <li>{t}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

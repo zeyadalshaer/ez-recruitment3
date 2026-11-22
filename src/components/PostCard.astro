@@ -1,0 +1,24 @@
+---
+import Img from './Img.astro';
+import { formatDate, readingTime, categoryTitle, type Post } from '../lib/site';
+
+interface Props { post: Post; featured?: boolean }
+const { post, featured = false } = Astro.props;
+const { title, description, date, image, imageAlt, category } = post.data;
+const catName = await categoryTitle(category);
+const search = `${title} ${description} ${catName}`.toLowerCase();
+---
+<article class:list={['post-card', { 'post-card--featured': featured }]} data-post data-search={search} data-reveal>
+  <a class="post-card__media" href={`/insights/${post.id}/`} tabindex="-1" aria-hidden="true">
+    <Img src={image} alt="" sizes={featured ? '(min-width: 900px) 55vw, 100vw' : '(min-width: 900px) 33vw, 100vw'} widths={[480, 800, 1200]} />
+  </a>
+  <div class="post-card__body">
+    <p class="post-card__meta">
+      <a href={`/insights/category/${category}/`} class="tag">{catName}</a>
+      <span><time datetime={date.toISOString()}>{formatDate(date)}</time> · {readingTime(post.body)} min read</span>
+    </p>
+    <h3 class="post-card__title"><a href={`/insights/${post.id}/`}>{title}</a></h3>
+    <p class="post-card__desc">{description}</p>
+    <a class="link-arrow" href={`/insights/${post.id}/`} aria-label={`Read article: ${title}`}>Read article <span aria-hidden="true">→</span></a>
+  </div>
+</article>

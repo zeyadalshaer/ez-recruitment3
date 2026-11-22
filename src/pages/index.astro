@@ -1,0 +1,140 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import Img from '../components/Img.astro';
+import SectionHead from '../components/SectionHead.astro';
+import ProcessTimeline from '../components/ProcessTimeline.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { byOrder, site } from '../lib/site';
+import home from '../data/home.json';
+
+const services = (await getCollection('services')).sort(byOrder);
+const industries = (await getCollection('industries')).sort(byOrder);
+
+const faqLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: home.faq.items.map((q) => ({
+    '@type': 'Question',
+    name: q.question,
+    acceptedAnswer: { '@type': 'Answer', text: q.answer },
+  })),
+};
+const siteLd = { '@context': 'https://schema.org', '@type': 'WebSite', name: site.name, url: site.url };
+---
+<Layout jsonLd={[faqLd, siteLd]} image={home.hero.image}>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__grid">
+      <div class="hero__copy">
+        <h1>{home.hero.headline}</h1>
+        <p class="hero__sub">{home.hero.subheadline}</p>
+        <p class="hero__lead">{home.hero.description}</p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href={home.hero.primaryCta.href}>{home.hero.primaryCta.label}<span class="btn__arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn--ghost btn--lg" href={home.hero.secondaryCta.href}>{home.hero.secondaryCta.label}</a>
+        </div>
+        <ul class="hero__points">
+          {home.hero.points.map((p) => <li>{p}</li>)}
+        </ul>
+      </div>
+      <div class="hero__visual">
+        <div class="hero__frame">
+          <Img src={home.hero.image} alt={home.hero.imageAlt} loading="eager" fetchpriority="high" sizes="(min-width: 960px) 50vw, 100vw" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTRODUCTION -->
+  <section class="section intro">
+    <div class="container intro__grid">
+      <div class="intro__media" data-reveal>
+        <Img src={home.intro.image} alt={home.intro.imageAlt} sizes="(min-width: 960px) 45vw, 100vw" />
+      </div>
+      <div class="intro__copy" data-reveal>
+        <p class="eyebrow">{home.intro.eyebrow}</p>
+        <h2 class="section-head__title">{home.intro.heading}</h2>
+        {home.intro.paragraphs.map((p) => <p>{p}</p>)}
+        <ul class="checks">{home.intro.highlights.map((h) => <li>{h}</li>)}</ul>
+        <a class="link-arrow" href={home.intro.linkHref}>{home.intro.linkLabel} <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="section section--mist">
+    <div class="container">
+      <SectionHead eyebrow={home.services.eyebrow} heading={home.services.heading} intro={home.services.intro} />
+      <div class="service-grid">
+        {services.map((s, i) => (
+          <a class="service-card" href={`/services/#${s.id}`} data-reveal style={`--i:${i % 3}`}>
+            <div class="service-card__media"><Img src={s.data.image} alt="" widths={[480, 800]} sizes="(min-width: 960px) 33vw, 100vw" /></div>
+            <div class="service-card__body">
+              <span class="service-card__num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{s.data.title}</h3>
+              <p>{s.data.summary}</p>
+              <span class="link-arrow">Learn more <span aria-hidden="true">→</span></span>
+            </div>
+          </a>
+        ))}
+      </div>
+      <p class="section-link"><a class="link-arrow" href={home.services.linkHref}>{home.services.linkLabel} <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- INDUSTRIES -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow={home.industries.eyebrow} heading={home.industries.heading} intro={home.industries.intro} />
+      <div class="industry-mosaic">
+        {industries.map((ind, i) => (
+          <a class={`industry-tile industry-tile--${i + 1}`} href={`/industries/#${ind.id}`} data-reveal>
+            <Img src={ind.data.image} alt="" widths={[480, 800, 1200]} sizes="(min-width: 960px) 40vw, 100vw" />
+            <span class="industry-tile__label">
+              <strong>{ind.data.title}</strong>
+              <span aria-hidden="true">→</span>
+            </span>
+          </a>
+        ))}
+      </div>
+      <p class="section-link"><a class="link-arrow" href={home.industries.linkHref}>{home.industries.linkLabel} <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <!-- WHY CHOOSE -->
+  <section class="section section--navy why">
+    <div class="container">
+      <SectionHead eyebrow={home.why.eyebrow} heading={home.why.heading} intro={home.why.intro} light />
+      <ol class="why__grid">
+        {home.why.points.map((p, i) => (
+          <li class="why__item" data-reveal style={`--i:${i % 3}`}>
+            <span class="why__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.title}</h3>
+            <p>{p.text}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="section">
+    <div class="container">
+      <SectionHead eyebrow={home.process.eyebrow} heading={home.process.heading} intro={home.process.intro} />
+      <ProcessTimeline variant="compact" />
+      <p class="section-link"><a class="link-arrow" href={home.process.linkHref}>{home.process.linkLabel} <span aria-hidden="true">→</span></a></p>
+    </div>
+  </section>
+
+  <CtaBand />
+
+  <!-- FAQ -->
+  <section class="section section--mist">
+    <div class="container faq-layout">
+      <SectionHead eyebrow={home.faq.eyebrow} heading={home.faq.heading} intro={home.faq.intro} />
+      <Faq items={home.faq.items} />
+    </div>
+  </section>
+</Layout>

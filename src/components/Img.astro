@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import { resolveImage } from '../lib/images';
+
+interface Props {
+  src?: string;
+  alt?: string;
+  class?: string;
+  sizes?: string;
+  widths?: number[];
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  src,
+  alt = '',
+  class: cls,
+  sizes = '(min-width: 1200px) 1200px, 100vw',
+  widths = [480, 800, 1200, 1600],
+  loading = 'lazy',
+  fetchpriority,
+} = Astro.props;
+
+const img = resolveImage(src);
+---
+
+{
+  !img ? (
+    <div class:list={['img-fallback', cls]} role="img" aria-label={alt} />
+  ) : typeof img === 'string' ? (
+    <img src={img} alt={alt} class={cls} loading={loading} decoding="async" />
+  ) : img.format === 'svg' ? (
+    <img src={img.src} alt={alt} class={cls} width={img.width} height={img.height} loading={loading} decoding="async" fetchpriority={fetchpriority} />
+  ) : (
+    <Image src={img} alt={alt} class={cls} widths={widths} sizes={sizes} loading={loading} decoding="async" format="webp" quality={80} fetchpriority={fetchpriority} />
+  )
+}

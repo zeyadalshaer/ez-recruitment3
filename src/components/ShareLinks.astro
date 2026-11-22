@@ -1,0 +1,39 @@
+---
+interface Props { url: string; title: string }
+const { url, title } = Astro.props;
+const u = encodeURIComponent(url);
+const t = encodeURIComponent(title);
+const links = [
+  { label: 'LinkedIn', href: `https://www.linkedin.com/sharing/share-offsite/?url=${u}` },
+  { label: 'X', href: `https://twitter.com/intent/tweet?url=${u}&text=${t}` },
+  { label: 'Facebook', href: `https://www.facebook.com/sharer/sharer.php?u=${u}` },
+  { label: 'WhatsApp', href: `https://wa.me/?text=${t}%20${u}` },
+  { label: 'Email', href: `mailto:?subject=${t}&body=${u}` },
+];
+---
+<div class="share" data-share-url={url}>
+  <span class="share__label">Share this article</span>
+  <ul>
+    {links.map((l) => (
+      <li><a href={l.href} target={l.label === 'Email' ? undefined : '_blank'} rel="noopener noreferrer" aria-label={`Share on ${l.label}`}>{l.label}</a></li>
+    ))}
+    <li><button type="button" data-copy-link>Copy link</button></li>
+  </ul>
+  <span class="share__status" role="status" aria-live="polite" data-copy-status></span>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.share').forEach((box) => {
+    const btn = box.querySelector<HTMLButtonElement>('[data-copy-link]');
+    const status = box.querySelector<HTMLElement>('[data-copy-status]');
+    btn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(box.dataset.shareUrl ?? location.href);
+        if (status) status.textContent = 'Link copied';
+      } catch {
+        if (status) status.textContent = 'Copy failed. Please copy the address from your browser.';
+      }
+      setTimeout(() => { if (status) status.textContent = ''; }, 3000);
+    });
+  });
+</script>

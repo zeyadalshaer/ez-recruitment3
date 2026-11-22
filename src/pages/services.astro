@@ -1,0 +1,42 @@
+---
+import { getCollection, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import Img from '../components/Img.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { byOrder, pages } from '../lib/site';
+
+const p = pages.services;
+const services = (await getCollection('services')).sort(byOrder);
+const rendered = await Promise.all(services.map(async (s) => ({ s, Content: (await render(s)).Content })));
+---
+<Layout title={p.title} description={p.description} image={p.image}>
+  <PageHero eyebrow={p.eyebrow} title={p.title} intro={p.intro} image={p.image} imageAlt={p.imageAlt} crumb={[{ label: p.title }]} />
+
+  <div class="service-rows">
+    {rendered.map(({ s, Content }, i) => (
+      <section class:list={['service-row', { 'service-row--alt': i % 2 === 1 }]} id={s.id}>
+        <div class="container service-row__grid">
+          <div class="service-row__media" data-reveal>
+            <Img src={s.data.image} alt={s.data.imageAlt ?? ''} sizes="(min-width: 960px) 45vw, 100vw" />
+            <span class="service-row__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          </div>
+          <div class="service-row__copy" data-reveal>
+            <p class="eyebrow">Service {String(i + 1).padStart(2, '0')}</p>
+            <h2>{s.data.title}</h2>
+            <p class="service-row__summary">{s.data.summary}</p>
+            <div class="prose prose--tight"><Content /></div>
+            {s.data.benefits.length > 0 && (
+              <div class="benefits">
+                <h3>What this means for employers</h3>
+                <ul class="checks">{s.data.benefits.map((b) => <li>{b}</li>)}</ul>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    ))}
+  </div>
+
+  <CtaBand />
+</Layout>

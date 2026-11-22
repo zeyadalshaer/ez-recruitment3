@@ -1,0 +1,18 @@
+---
+interface Props { light?: boolean }
+const { light = false } = Astro.props;
+---
+<span class:list={['logo', { 'logo--light': light }]}>
+  <svg class="logo__mark" viewBox="0 0 64 64" width="38" height="38" aria-hidden="true" focusable="false">
+    <rect width="64" height="64" fill={light ? '#159A9A' : '#142D4E'} />
+    <g fill={light ? '#0C1F38' : '#fff'}>
+      <rect x="14" y="16" width="4" height="32" /><rect x="14" y="16" width="16" height="4" />
+      <rect x="14" y="30" width="12" height="4" /><rect x="14" y="44" width="16" height="4" />
+    </g>
+    <g fill={light ? '#fff' : '#159A9A'}>
+      <rect x="34" y="16" width="16" height="4" /><rect x="34" y="44" width="16" height="4" />
+      <polygon points="46,20 50,20 38,44 34,44" />
+    </g>
+  </svg>
+  <span class="logo__text"><strong>EZ</strong> Recruitment</span>
+</span>

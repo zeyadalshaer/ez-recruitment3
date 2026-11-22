@@ -1,0 +1,384 @@
+# EZ Recruitment — Decap CMS configuration
+# Opens at  /admin  and saves changes straight to your GitHub repository;
+# Cloudflare Pages then rebuilds and publishes the site automatically.
+#
+# ONE-TIME SETUP: change `repo` below to  your-github-username/your-repository-name
+
+backend:
+  name: github
+  repo: zeyadalshaer/ez-recruitment   # <-- change this once
+  branch: main
+  auth_endpoint: api/auth
+  # base_url is filled in automatically by /admin/index.html
+
+# Lets you use the CMS on your own computer: run `npm run cms` in a second terminal.
+local_backend: true
+
+site_url: https://ez-recruitment.com
+display_url: https://ez-recruitment.com
+logo_url: /apple-touch-icon.png
+locale: en
+
+media_folder: src/assets/uploads
+public_folder: /src/assets/uploads
+
+collections:
+  # ------------------------------------------------------------------ ARTICLES
+  - name: blog
+    label: Insights Articles
+    label_singular: Article
+    folder: src/content/blog
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "insights/{{slug}}"
+    summary: "{{title}} · {{date}}"
+    sortable_fields: [date, title, published]
+    view_filters:
+      - { label: Published, field: published, pattern: true }
+      - { label: Unpublished, field: published, pattern: false }
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Short description, name: description, widget: text, hint: "One or two sentences. Shown on article cards, in search results and when the article is shared." }
+      - { label: Publication date, name: date, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - label: Category
+        name: category
+        widget: relation
+        collection: categories
+        search_fields: [title]
+        value_field: "{{slug}}"
+        display_fields: [title]
+      - { label: Featured image, name: image, widget: image, required: false, hint: "Landscape photo, ideally 1600 × 900 px or larger." }
+      - { label: Featured image description, name: imageAlt, widget: string, required: false, hint: "Describe the picture in a few words (for screen readers and search engines)." }
+      - { label: Author, name: author, widget: string, default: "EZ Recruitment" }
+      - { label: Published, name: published, widget: boolean, default: true, hint: "Switch OFF to unpublish: the article is hidden from the website but stays here as a draft." }
+      - { label: Feature on Insights page, name: featured, widget: boolean, default: false, required: false, hint: "The featured article is shown large at the top of the Insights page." }
+      - { label: Article text, name: body, widget: markdown }
+
+  # ---------------------------------------------------------------- CATEGORIES
+  - name: categories
+    label: Article Categories
+    label_singular: Category
+    folder: src/content/categories
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    fields:
+      - { label: Name, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+
+  # ---------------------------------------------------- WEBSITE TEXT & SETTINGS
+  - name: settings
+    label: Website Text & Settings
+    files:
+      - name: site
+        label: Company details & defaults
+        file: src/data/site.json
+        format: json
+        fields:
+          - { label: Company name, name: name, widget: string }
+          - { label: Tagline, name: tagline, widget: string }
+          - { label: Positioning line, name: positioning, widget: string }
+          - { label: Website address, name: url, widget: string }
+          - { label: Contact email, name: email, widget: string, hint: "Shown on the Contact page and in the footer. Form enquiries are delivered to the address set in Cloudflare (CONTACT_TO)." }
+          - { label: Phone number, name: phone, widget: string, required: false, hint: "Leave empty to hide." }
+          - { label: Address, name: address, widget: string, required: false, hint: "Leave empty to hide." }
+          - label: Social media links
+            name: social
+            widget: list
+            required: false
+            hint: "Leave empty to hide. Add only real accounts."
+            fields:
+              - { label: Name, name: label, widget: string }
+              - { label: Link, name: url, widget: string }
+          - { label: Default page title, name: defaultTitle, widget: string }
+          - { label: Default description (search engines), name: defaultDescription, widget: text }
+          - { label: Footer text, name: footerBlurb, widget: text }
+          - { label: Copyright name, name: copyrightName, widget: string }
+
+      - name: navigation
+        label: Navigation menu & footer links
+        file: src/data/navigation.json
+        format: json
+        fields:
+          - label: Main menu
+            name: main
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string, hint: "For example /about/ — page links start and end with a slash." }
+          - label: Menu button
+            name: cta
+            widget: object
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
+          - label: Footer columns
+            name: footer
+            widget: list
+            fields:
+              - { label: Column title, name: title, widget: string }
+              - label: Links
+                name: links
+                widget: list
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Link, name: href, widget: string }
+          - label: Footer small print links
+            name: legal
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Link, name: href, widget: string }
+
+      - name: home
+        label: Home page
+        file: src/data/home.json
+        format: json
+        fields:
+          - label: Top banner (hero)
+            name: hero
+            widget: object
+            fields:
+              - { label: Main headline, name: headline, widget: string }
+              - { label: Supporting headline, name: subheadline, widget: string }
+              - { label: Description, name: description, widget: text }
+              - label: Main button
+                name: primaryCta
+                widget: object
+                fields: [{ label: Label, name: label, widget: string }, { label: Link, name: href, widget: string }]
+              - label: Second button
+                name: secondaryCta
+                widget: object
+                fields: [{ label: Label, name: label, widget: string }, { label: Link, name: href, widget: string }]
+              - { label: Image, name: image, widget: image }
+              - { label: Image description, name: imageAlt, widget: string }
+              - { label: Key points under the buttons, name: points, widget: list, field: { label: Point, name: point, widget: string } }
+          - label: Company introduction
+            name: intro
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Paragraphs, name: paragraphs, widget: list, field: { label: Paragraph, name: paragraph, widget: text } }
+              - { label: Highlights, name: highlights, widget: list, field: { label: Highlight, name: highlight, widget: string } }
+              - { label: Image, name: image, widget: image }
+              - { label: Image description, name: imageAlt, widget: string }
+              - { label: Link text, name: linkLabel, widget: string }
+              - { label: Link address, name: linkHref, widget: string }
+          - label: Services section heading
+            name: services
+            widget: object
+            fields: &sectionHead
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Introduction, name: intro, widget: text }
+              - { label: Link text, name: linkLabel, widget: string }
+              - { label: Link address, name: linkHref, widget: string }
+          - label: Industries section heading
+            name: industries
+            widget: object
+            fields: *sectionHead
+          - label: Why choose us
+            name: why
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Introduction, name: intro, widget: text }
+              - label: Points
+                name: points
+                widget: list
+                fields: [{ label: Title, name: title, widget: string }, { label: Text, name: text, widget: text }]
+          - label: Process section heading
+            name: process
+            widget: object
+            fields: *sectionHead
+          - label: Call-to-action band
+            name: cta
+            widget: object
+            fields:
+              - { label: Heading, name: heading, widget: string }
+              - { label: Text, name: text, widget: text }
+              - label: Button
+                name: button
+                widget: object
+                fields: [{ label: Label, name: label, widget: string }, { label: Link, name: href, widget: string }]
+          - label: Frequently asked questions
+            name: faq
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Introduction, name: intro, widget: text }
+              - label: Questions
+                name: items
+                widget: list
+                fields: [{ label: Question, name: question, widget: string }, { label: Answer, name: answer, widget: text }]
+
+      - name: about
+        label: About page
+        file: src/data/about.json
+        format: json
+        fields:
+          - label: Company overview
+            name: overview
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Paragraphs, name: paragraphs, widget: list, field: { label: Paragraph, name: paragraph, widget: text } }
+              - { label: Image, name: image, widget: image }
+              - { label: Image description, name: imageAlt, widget: string }
+          - label: Mission
+            name: mission
+            widget: object
+            fields: [{ label: Heading, name: heading, widget: string }, { label: Text, name: text, widget: text }]
+          - label: Vision
+            name: vision
+            widget: object
+            fields: [{ label: Heading, name: heading, widget: string }, { label: Text, name: text, widget: text }]
+          - label: Values
+            name: values
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - label: Values
+                name: items
+                widget: list
+                fields: [{ label: Title, name: title, widget: string }, { label: Text, name: text, widget: text }]
+          - label: Our approach
+            name: approach
+            widget: object
+            fields:
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Heading, name: heading, widget: string }
+              - { label: Paragraphs, name: paragraphs, widget: list, field: { label: Paragraph, name: paragraph, widget: text } }
+              - { label: Key points, name: points, widget: list, field: { label: Point, name: point, widget: string } }
+
+      - name: contact
+        label: Contact page text
+        file: src/data/contact.json
+        format: json
+        fields:
+          - { label: Small heading, name: eyebrow, widget: string }
+          - { label: Heading, name: heading, widget: string }
+          - { label: Introduction, name: intro, widget: text }
+          - { label: Form heading, name: formHeading, widget: string }
+          - { label: Send button text, name: submitLabel, widget: string }
+          - { label: Thank-you heading, name: successHeading, widget: string }
+          - { label: Thank-you text, name: successText, widget: text }
+          - { label: Error message, name: errorText, widget: text }
+          - { label: "Heading for the next-steps list", name: nextStepsHeading, widget: string }
+          - { label: Next steps, name: nextSteps, widget: list, field: { label: Step, name: step, widget: string } }
+          - { label: Requirements field hint, name: workforcePlaceholder, widget: text }
+          - { label: Message field hint, name: messagePlaceholder, widget: text }
+
+      - name: pageheaders
+        label: Page titles & banners
+        file: src/data/pages.json
+        format: json
+        fields:
+          - label: About
+            name: about
+            widget: object
+            fields: &pageHead
+              - { label: Title, name: title, widget: string }
+              - { label: Small heading, name: eyebrow, widget: string, required: false }
+              - { label: Introduction, name: intro, widget: text, required: false }
+              - { label: Description (search engines), name: description, widget: text }
+              - { label: Banner image, name: image, widget: image, required: false }
+              - { label: Banner image description, name: imageAlt, widget: string, required: false }
+          - { label: Services, name: services, widget: object, fields: *pageHead }
+          - { label: Industries, name: industries, widget: object, fields: *pageHead }
+          - { label: Process, name: process, widget: object, fields: *pageHead }
+          - label: Insights
+            name: insights
+            widget: object
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Small heading, name: eyebrow, widget: string }
+              - { label: Introduction, name: intro, widget: text }
+              - { label: Description (search engines), name: description, widget: text }
+              - { label: Text when a search finds nothing, name: emptyText, widget: string }
+          - label: Contact
+            name: contact
+            widget: object
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Description (search engines), name: description, widget: text }
+
+  # ------------------------------------------------------------------ SERVICES
+  - name: services
+    label: Services
+    label_singular: Service
+    folder: src/content/services
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: Display order, name: order, widget: number, value_type: int, min: 1, default: 10, hint: "1 appears first." }
+      - { label: Title, name: title, widget: string }
+      - { label: Short summary, name: summary, widget: text, hint: "Shown on the Home page card and under the title on the Services page." }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Image description, name: imageAlt, widget: string, required: false }
+      - { label: Benefits for employers, name: benefits, widget: list, required: false, field: { label: Benefit, name: benefit, widget: string } }
+      - { label: Description, name: body, widget: markdown }
+
+  # ---------------------------------------------------------------- INDUSTRIES
+  - name: industries
+    label: Industries
+    label_singular: Industry
+    folder: src/content/industries
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: Display order, name: order, widget: number, value_type: int, min: 1, default: 10, hint: "1 appears first." }
+      - { label: Title, name: title, widget: string }
+      - { label: Short summary, name: summary, widget: text }
+      - { label: Image, name: image, widget: image, required: false }
+      - { label: Image description, name: imageAlt, widget: string, required: false }
+      - { label: Example roles, name: roles, widget: list, required: false, field: { label: Role, name: role, widget: string } }
+      - { label: Description, name: body, widget: markdown }
+
+  # ------------------------------------------------------------------- PROCESS
+  - name: process
+    label: Process Steps
+    label_singular: Step
+    folder: src/content/process
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    sortable_fields: [order, title]
+    fields:
+      - { label: Step number (order), name: order, widget: number, value_type: int, min: 1, default: 7 }
+      - { label: Title, name: title, widget: string }
+      - { label: Short summary, name: summary, widget: text, hint: "Shown on the Home page timeline." }
+      - { label: Key points, name: points, widget: list, required: false, field: { label: Point, name: point, widget: string } }
+      - { label: Full description, name: body, widget: markdown, hint: "Shown on the Process page." }
+
+  # --------------------------------------------------------------- EXTRA PAGES
+  - name: pages
+    label: Extra Pages
+    label_singular: Page
+    description: "New pages published at /page-name/. To add one to the menu, add its link under Website Text & Settings → Navigation."
+    folder: src/content/pages
+    create: true
+    extension: md
+    format: frontmatter
+    slug: "{{slug}}"
+    preview_path: "{{slug}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description (search engines), name: description, widget: text }
+      - { label: Last updated, name: updated, widget: datetime, date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD", required: false }
+      - { label: Page content, name: body, widget: markdown }

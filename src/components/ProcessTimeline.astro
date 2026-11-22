@@ -1,0 +1,22 @@
+---
+import { getCollection } from 'astro:content';
+import { byOrder } from '../lib/site';
+
+interface Props { variant?: 'compact' | 'detailed' }
+const { variant = 'compact' } = Astro.props;
+const steps = (await getCollection('process')).sort(byOrder);
+---
+<ol class:list={['timeline', `timeline--${variant}`]}>
+  {steps.map((s, i) => (
+    <li class="timeline__step" data-reveal style={`--i:${i}`}>
+      <span class="timeline__num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+      <div class="timeline__body">
+        <h3>{s.data.title}</h3>
+        <p>{variant === 'compact' ? s.data.summary : s.body?.trim() ?? s.data.summary}</p>
+        {variant === 'detailed' && s.data.points.length > 0 && (
+          <ul class="checks">{s.data.points.map((p) => <li>{p}</li>)}</ul>
+        )}
+      </div>
+    </li>
+  ))}
+</ol>

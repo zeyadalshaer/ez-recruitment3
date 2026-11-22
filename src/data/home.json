@@ -1,0 +1,125 @@
+{
+  "hero": {
+    "headline": "Build Your Workforce with Confidence",
+    "subheadline": "International Recruitment & Workforce Solutions",
+    "description": "EZ Recruitment helps businesses source, screen and coordinate the workers they need. From defining your requirements to coordinating the steps that follow, we provide structured, employer-focused recruitment support.",
+    "primaryCta": { "label": "Discuss Your Hiring Needs", "href": "/contact/" },
+    "secondaryCta": { "label": "Explore Our Services", "href": "/services/" },
+    "image": "/src/assets/uploads/hero.svg",
+    "imageAlt": "Abstract graphic of connected points representing an international workforce network",
+    "points": [
+      "Employer-focused",
+      "Structured process",
+      "Clear communication"
+    ]
+  },
+  "intro": {
+    "eyebrow": "Who We Are",
+    "heading": "Recruitment support built around the employer",
+    "paragraphs": [
+      "EZ Recruitment is an international recruitment and workforce solutions company working with businesses that need to build or expand their workforce. We take on the practical work of recruitment: understanding the role, identifying suitable candidates, assessing them against your requirements and coordinating the steps that follow.",
+      "Our approach is deliberately straightforward. We listen carefully, plan the search properly and keep you informed at each stage, so that hiring decisions always remain in your hands."
+    ],
+    "highlights": [
+      "Employer-focused recruitment support",
+      "International sourcing",
+      "A structured, transparent process"
+    ],
+    "image": "/src/assets/uploads/about.svg",
+    "imageAlt": "Abstract graphic of overlapping panels representing structured recruitment planning",
+    "linkLabel": "More about EZ Recruitment",
+    "linkHref": "/about/"
+  },
+  "services": {
+    "eyebrow": "What We Do",
+    "heading": "Our recruitment services",
+    "intro": "Six areas of support that can be combined into a complete recruitment solution or used individually, depending on what your business needs.",
+    "linkLabel": "View all services",
+    "linkHref": "/services/"
+  },
+  "industries": {
+    "eyebrow": "Sectors",
+    "heading": "Industries we serve",
+    "intro": "We support employers in sectors where reliable, well-matched workforces make the difference between a project that runs smoothly and one that does not.",
+    "linkLabel": "Explore industries",
+    "linkHref": "/industries/"
+  },
+  "why": {
+    "eyebrow": "Why EZ Recruitment",
+    "heading": "Why choose EZ Recruitment",
+    "intro": "Hiring internationally involves many moving parts. These are the principles we apply to keep it clear and manageable for the employers we work with.",
+    "points": [
+      {
+        "title": "Built for employers",
+        "text": "Everything we do is organized around the hiring needs of businesses, not individual job seekers."
+      },
+      {
+        "title": "A clear, structured process",
+        "text": "Six defined stages take you from your initial requirements to coordinated next steps, so you always know where the search stands."
+      },
+      {
+        "title": "Requirements-led screening",
+        "text": "Candidates are assessed against the criteria you set for the role rather than against generic profiles."
+      },
+      {
+        "title": "Direct communication",
+        "text": "You work directly with the person managing your search, with no layers of hand-offs between you and the work."
+      },
+      {
+        "title": "Flexible scope",
+        "text": "Use the full process or individual stages of it, depending on what your business needs and what you already handle in-house."
+      },
+      {
+        "title": "Realistic expectations",
+        "text": "We are open about timelines, requirements and what is feasible, and we do not promise outcomes that depend on factors we cannot control."
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "How We Work",
+    "heading": "Our recruitment process",
+    "intro": "A defined workflow from the first conversation to coordinated next steps.",
+    "linkLabel": "See the full process",
+    "linkHref": "/process/"
+  },
+  "cta": {
+    "heading": "Ready to discuss your hiring needs?",
+    "text": "Tell us about the roles you need to fill. We will review your requirements and come back to you with suggested next steps.",
+    "button": { "label": "Discuss Your Workforce Needs", "href": "/contact/" }
+  },
+  "faq": {
+    "eyebrow": "Questions",
+    "heading": "Frequently asked questions",
+    "intro": "Straightforward answers to the questions employers ask most often.",
+    "items": [
+      {
+        "question": "What does EZ Recruitment do?",
+        "answer": "We provide international recruitment and workforce solutions for businesses. Our support covers workforce planning, candidate sourcing, screening and evaluation, and the coordination of recruitment steps between you and shortlisted candidates."
+      },
+      {
+        "question": "Who do you work with?",
+        "answer": "We work with employers and businesses, including business owners, HR directors and managers, and recruitment managers. We do not provide services to individual job seekers."
+      },
+      {
+        "question": "Which industries do you support?",
+        "answer": "Our focus is on manufacturing and industrial, construction, logistics and warehousing, hospitality and tourism, agriculture, and facility management. If your sector is not listed, you are welcome to get in touch to discuss your requirements."
+      },
+      {
+        "question": "How do we get started?",
+        "answer": "Send us an enquiry through the contact page with a short description of your business and the roles you need to fill. We will review it and contact you at your business email to discuss your requirements in more detail."
+      },
+      {
+        "question": "What information should we prepare?",
+        "answer": "It helps to have the job titles, the approximate number of positions, the skills and experience required, the work location and your preferred timeline. If some of this is still undecided, we can help you work through it during the planning stage."
+      },
+      {
+        "question": "Can you guarantee that positions will be filled?",
+        "answer": "No recruitment partner can honestly guarantee a specific outcome. Results depend on the roles, the requirements, market conditions and the legal and administrative steps involved. What we commit to is a structured, transparent process and clear communication throughout."
+      },
+      {
+        "question": "Do you advise on visas, work permits or employment law?",
+        "answer": "Immigration, work authorization and employment rules vary by location and by role. We coordinate the recruitment side of the process with you, and we recommend that employers confirm legal and regulatory requirements with qualified advisers in the relevant jurisdictions."
+      }
+    ]
+  }
+}

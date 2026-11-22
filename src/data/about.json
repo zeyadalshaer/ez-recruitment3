@@ -1,0 +1,60 @@
+{
+  "overview": {
+    "eyebrow": "About Us",
+    "heading": "A recruitment partner focused on employers",
+    "paragraphs": [
+      "EZ Recruitment provides international recruitment and workforce solutions for businesses with staffing requirements. We work with employers who need dependable, well-matched people and who value a structured, transparent way of getting there.",
+      "Our role goes beyond passing names between parties. We help you define what the role really requires, plan the search, identify and assess candidates against your criteria, and coordinate the recruitment steps that follow. Throughout, you remain the decision-maker."
+    ],
+    "image": "/src/assets/uploads/about.svg",
+    "imageAlt": "Abstract graphic of overlapping panels representing structured recruitment planning"
+  },
+  "mission": {
+    "heading": "Our mission",
+    "text": "To help businesses build dependable workforces through structured, transparent and responsible international recruitment."
+  },
+  "vision": {
+    "heading": "Our vision",
+    "text": "To be a trusted recruitment partner for employers who value clarity, professionalism and long-term working relationships."
+  },
+  "values": {
+    "eyebrow": "Principles",
+    "heading": "Our values",
+    "items": [
+      {
+        "title": "Integrity",
+        "text": "We say what we can do and what we cannot, and we represent employers and candidates accurately."
+      },
+      {
+        "title": "Clarity",
+        "text": "Clear requirements, clear communication and clear next steps make better hiring decisions possible."
+      },
+      {
+        "title": "Responsibility",
+        "text": "International recruitment affects real people and real businesses. We treat every search with the care it deserves."
+      },
+      {
+        "title": "Respect",
+        "text": "Employers and candidates are both treated professionally, fairly and with respect for their time and circumstances."
+      },
+      {
+        "title": "Partnership",
+        "text": "We succeed when the employers we work with are well served, so we take a long-term view of every relationship."
+      }
+    ]
+  },
+  "approach": {
+    "eyebrow": "How We Think",
+    "heading": "Our approach to international recruitment",
+    "paragraphs": [
+      "International recruitment works best when it is planned. Before any search begins, we want to understand your business, the role, the working environment and the standards a candidate needs to meet.",
+      "From there we follow a defined process: planning the workforce requirement, sourcing candidates, screening and evaluating them against your criteria, and coordinating the steps between you and the candidates you choose to pursue."
+    ],
+    "points": [
+      "Requirements are agreed before sourcing begins.",
+      "Candidates are assessed against the criteria set for the role.",
+      "Communication is direct, regular and honest about progress.",
+      "Legal and regulatory requirements are respected and flagged early."
+    ]
+  }
+}
