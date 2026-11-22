@@ -6,7 +6,7 @@
 
 backend:
   name: github
-  repo: zeyadalshaer/ez-recruitment   # <-- change this once
+  repo: zeyadalshaer/ez-recruitment3
   branch: main
   auth_endpoint: api/auth
   # base_url is filled in automatically by /admin/index.html
